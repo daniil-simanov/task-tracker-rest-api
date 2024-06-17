@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${HOST}/${POSTGRES_DB}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    producer:
+      properties:
+        spring.json.type.mapping: emailDTO:com.dansim.tasktrackerrestapi.dto.EmailDTO
+        value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  config:
+    activate:
+      on-profile: prod
+server:
+  port: 8080
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET_KEY}
