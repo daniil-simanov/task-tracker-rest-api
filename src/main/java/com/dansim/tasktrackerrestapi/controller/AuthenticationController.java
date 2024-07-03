@@ -1,6 +1,5 @@
 package com.dansim.tasktrackerrestapi.controller;
 
-import com.dansim.tasktrackerrestapi.dto.EmailDTO;
 import com.dansim.tasktrackerrestapi.service.JwtService;
 import com.dansim.tasktrackerrestapi.dto.UserRegisterDTO;
 import com.dansim.tasktrackerrestapi.model.User;
@@ -15,11 +14,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.logging.Logger;
 
 import static com.dansim.tasktrackerrestapi.util.ErrorsUtil.returnErrorsToClient;
 
@@ -34,17 +34,23 @@ public class AuthenticationController {
     private final JwtService jwtService;
     private final MapperUtil mapperUtil;
     private final UserValidator userValidator;
+    private final Logger logger;
 
     @PostMapping("/registration")
     @Operation(summary = "User registration")
     public ResponseEntity<?> registration(@RequestBody @Valid UserRegisterDTO userRegisterDTO, BindingResult bindingResult){
+        logger.info("User registration");
         User user = mapperUtil.convertToUser(userRegisterDTO);
+        logger.info(userRegisterDTO.toString());
         userValidator.validate(user,bindingResult);
+        logger.info("User validate");
         if (bindingResult.hasErrors()){
             returnErrorsToClient(bindingResult);
         }
         authenticationService.register(user);
+        logger.info("User registered");
         String jwtToken = jwtService.generateToken(user);
+        logger.info("JWT token generated");
         return new ResponseEntity<>(jwtToken,HttpStatus.OK);
 
 

@@ -5,6 +5,7 @@ import com.dansim.tasktrackerrestapi.dto.TaskDTO;
 import com.dansim.tasktrackerrestapi.model.Task;
 import com.dansim.tasktrackerrestapi.model.User;
 import com.dansim.tasktrackerrestapi.service.TaskService;
+import com.dansim.tasktrackerrestapi.service.UserService;
 import com.dansim.tasktrackerrestapi.util.MapperUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class TaskController {
     private final TaskService taskService;
     private final MapperUtil mapperUtil;
+    private final Logger logger ;
 
     @GetMapping
     @Operation(summary = "Get all user tasks")
@@ -60,6 +63,7 @@ public class TaskController {
     public ResponseEntity<HttpStatus> deleteTask(@AuthenticationPrincipal User user,
                                                  @PathVariable("id") int id){
         taskService.delete(id);
+        logger.info("Deleted task with id: " + id);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }

@@ -2,7 +2,7 @@ package com.dansim.tasktrackerrestapi.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
+import lombok.*;
 
 @Data
 public class UserRegisterDTO {

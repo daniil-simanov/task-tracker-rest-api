@@ -1,5 +1,6 @@
 package com.dansim.tasktrackerrestapi.config;
 
+import com.dansim.tasktrackerrestapi.model.User;
 import com.dansim.tasktrackerrestapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -7,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    private static final String[] WHITELIST_URLS = {"/auth/**","/swagger-ui/**","/swagger-ui.html","/v3/api-docs/**"};
+    private static final String[] WHITELIST_URLS = {"/auth/**","/swagger-ui/**","/swagger-ui.html","/v3/api-docs/**","/error"};
 
     private final JwtAuthenticationFilter jwtAuthFilter;
 
@@ -33,12 +35,17 @@ public class SecurityConfiguration {
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(WHITELIST_URLS).permitAll().anyRequest().authenticated();
+                    auth.requestMatchers(WHITELIST_URLS)
+                            .permitAll()
+                            .anyRequest()
+                            .authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
+
 
 
 

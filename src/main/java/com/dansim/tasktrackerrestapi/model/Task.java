@@ -1,16 +1,17 @@
 package com.dansim.tasktrackerrestapi.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name="tasks")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Task  {
 
     @Id

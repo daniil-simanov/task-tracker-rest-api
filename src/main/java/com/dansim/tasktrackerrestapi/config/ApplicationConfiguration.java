@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Configuration
 @RequiredArgsConstructor
@@ -65,6 +66,11 @@ public class ApplicationConfiguration {
                 .info(
                         new Info().title("Task Tracker API")
                 );
+    }
+
+    @Bean
+    public Logger logger() {
+        return Logger.getLogger(this.getClass().getName());
     }
 
 

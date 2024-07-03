@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.logging.Logger;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -16,11 +18,15 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final EmailFactory emailFactory;
     private final KafkaTemplate<String, EmailDTO> kafkaTemplate;
+    private final Logger logger;
 
     @Transactional
     public void register(User user) {
+        logger.info("Registering user: " + user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         kafkaTemplate.send("emailTopic",emailFactory.createEmail(user));
+        logger.info("Sending email to user: " + user.getUsername());
         userRepository.save(user);
+        logger.info("Saved user: " + user.getUsername());
     }
 }
