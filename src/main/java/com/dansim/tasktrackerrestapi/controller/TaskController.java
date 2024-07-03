@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 public class TaskController {
     private final TaskService taskService;
     private final MapperUtil mapperUtil;
-    private final Logger logger ;
 
     @GetMapping
     @Operation(summary = "Get all user tasks")
@@ -63,7 +62,6 @@ public class TaskController {
     public ResponseEntity<HttpStatus> deleteTask(@AuthenticationPrincipal User user,
                                                  @PathVariable("id") int id){
         taskService.delete(id);
-        logger.info("Deleted task with id: " + id);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }

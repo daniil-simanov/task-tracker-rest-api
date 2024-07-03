@@ -37,12 +37,14 @@ public class TaskService {
         updatedTask.setId(id);
         updatedTask.setOwner(user);
         updatedTask.setModified(LocalDateTime.now());
+        logger.info("Task updated : " + updatedTask.getHeader());
         taskRepository.save(updatedTask);
 
     }
     @Transactional
     public void delete(int id){
         taskRepository.deleteById(id);
+        logger.info("Task deleted : " + id);
     }
 
 
