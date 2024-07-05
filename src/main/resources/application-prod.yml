@@ -18,6 +18,7 @@ spring:
       properties:
         spring.json.type.mapping: emailDTO:com.dansim.tasktrackerrestapi.dto.EmailDTO
         value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
   config:
     activate:
       on-profile: prod

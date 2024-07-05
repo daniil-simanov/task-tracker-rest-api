@@ -5,7 +5,8 @@ import lombok.*;
 
 
 @Builder
-@Data
+@Setter
+@Getter
 public class EmailDTO  {
     private String recipientAddress;
     private String title;

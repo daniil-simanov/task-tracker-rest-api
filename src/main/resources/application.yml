@@ -5,6 +5,8 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
+    hibernate:
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate:
@@ -16,6 +18,7 @@ spring:
       properties:
         spring.json.type.mapping: emailDTO:com.dansim.tasktrackerrestapi.dto.EmailDTO
         value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    bootstrap-servers: localhost:9092
 logging:
   level:
     org.springframework.security : trace
